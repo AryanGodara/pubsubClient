@@ -1,0 +1,5 @@
+# dune init project midiClient
+# OCAMLPARAM: unset
+# Shared cache: disabled
+# Workspace root: /Users/aryan/Developer/playground/ocaml-pub-sub-1/midiClient
+# Auto-detected concurrency: 10
