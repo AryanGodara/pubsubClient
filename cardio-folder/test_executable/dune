@@ -1,4 +1,0 @@
-(executable
- (public_name some_loop)
- (name main)
- (libraries unix))
