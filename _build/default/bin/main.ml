@@ -22,7 +22,7 @@ let () =
     Lwt.pick
       [
         (* Udp_server.create_server server_socket; *)
-        Udp_client.create_client client_socket;
+        UdpClient.create_client client_socket;
       ]
   in
 
