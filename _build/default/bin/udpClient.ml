@@ -4,14 +4,7 @@ open Lwt.Infix
 let listen_address = Unix.inet_addr_loopback
 let port = 9000
 
-let sock : Lwt_unix.file_descr ref = ref Lwt_unix.stdin
-
-let init () : unit =
-  let _ = create_socket () 
-  >>= fun fd ->
-    sock := fd;
-  >>= Lwt_main.run in
-  ()
+let sock : Lwt_unix.file_descr Lwt.t ref = ref (Lwt.return Lwt_unix.stdin)
 
 let handle_message msg =
   print_endline ("Received message in handle_message: " ^ msg);
@@ -47,10 +40,13 @@ let rec handle_request server_socket =
 
 let create_client =
   print_endline "Creating client";
-  handle_request sock
+  handle_request !sock
 
 let create_socket () : Lwt_unix.file_descr Lwt.t =
   print_endline "Creating socket";
   let open Lwt_unix in
   let sock = socket PF_INET SOCK_DGRAM 0 in
   Lwt.return sock
+
+let init () : unit =
+  sock := Lwt.return( Lwt_main.run (create_socket ()))

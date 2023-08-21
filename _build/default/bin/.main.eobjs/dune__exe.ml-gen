@@ -18,6 +18,9 @@ module Midi = Dune__exe__Midi
 (** @canonical Dune__exe.Play *)
 module Play = Dune__exe__Play
 
+(** @canonical Dune__exe.Rtpmidi *)
+module Rtpmidi = Dune__exe__Rtpmidi
+
 (** @canonical Dune__exe.Simple_engine *)
 module Simple_engine = Dune__exe__Simple_engine
 

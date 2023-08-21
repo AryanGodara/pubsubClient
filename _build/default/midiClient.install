@@ -4,7 +4,7 @@ lib: [
   "_build/install/default/lib/midiClient/opam"
 ]
 bin: [
-  "_build/install/default/bin/midiClient"
+  "_build/install/default/bin/cardio_crumble"
 ]
 doc: [
   "_build/install/default/doc/midiClient/LICENSE"

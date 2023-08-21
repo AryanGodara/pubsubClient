@@ -21,7 +21,7 @@ let main =
 
 let main () = Stdlib.exit @@ Cmd.eval' main
 let () = 
-let () = Logs.set_reporter (Logs.format_repor ter ()) in
+let () = Logs.set_reporter (Logs.format_reporter ()) in
   let () = Logs.set_level (Some Logs.Info) in
   UdpClient.init ();
   main ()
