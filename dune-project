@@ -17,8 +17,8 @@
 
 (package
  (name midiClient)
- (synopsis "A short synopsis")
- (description "A longer description")
+ (synopsis "A short synopsis will be added here")
+ (description "A longer description will be added here")
 (depends 
   (ocaml
     (>= 5.0.0))
