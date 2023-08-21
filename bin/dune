@@ -1,4 +1,16 @@
 (executable
  (public_name midiClient)
  (name main)
- (libraries midiClient))
+ (libraries 
+ midiClient
+ cmdliner
+  logs
+  portmidi
+  runtime_events
+  lwt
+  logs.lwt
+  stdio
+  str
+  lwt.unix
+  unix))
+
