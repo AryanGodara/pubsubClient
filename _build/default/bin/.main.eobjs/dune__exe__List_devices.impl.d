@@ -1,1 +1,1 @@
-bin/list_devices.ml: Option Portmidi Printf
+bin/list_devices.ml: Cmd Cmdliner Option Portmidi Printf Term

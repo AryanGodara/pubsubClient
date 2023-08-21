@@ -1,7 +1,4 @@
 (lang dune 3.9)
 (name cardio_crumble)
-(sections (lib .) (bin ../../bin) (doc ../../doc/cardio_crumble))
-(files
- (lib (META dune-package opam))
- (bin (cardio_crumble some_loop))
- (doc (LICENSE.md README.md)))
+(sections (lib .) (doc ../../doc/cardio_crumble))
+(files (lib (META dune-package opam)) (doc (LICENSE.md README.md)))

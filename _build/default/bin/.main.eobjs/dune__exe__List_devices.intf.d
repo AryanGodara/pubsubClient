@@ -1,1 +1,1 @@
-bin/list_devices.mli:
+bin/list_devices.mli: Cmdliner

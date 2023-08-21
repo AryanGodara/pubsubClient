@@ -1,1 +1,1 @@
-bin/midi.ml: Midi_util Portmidi Printf Sexplib0
+bin/midi.ml: Char Import Portmidi Printf Result Sexplib0 Unix

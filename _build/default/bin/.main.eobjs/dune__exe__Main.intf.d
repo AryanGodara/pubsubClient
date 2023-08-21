@@ -1,1 +1,1 @@
-bin/main.mli:
+bin/main.mli: Cmdliner

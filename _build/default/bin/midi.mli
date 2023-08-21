@@ -1,13 +1,6 @@
 module Event = Portmidi.Portmidi_event
 
-val init : unit -> unit
 val error_to_string : Portmidi.Portmidi_error.t -> string
-
-val message_on :
-  note:char -> timestamp:int32 -> volume:char -> channel:int -> unit -> Event.t
-
-val message_off :
-  note:char -> timestamp:int32 -> volume:char -> channel:int -> unit -> Event.t
 
 module Device : sig
   type t
@@ -16,7 +9,24 @@ module Device : sig
   val shutdown : t -> (unit, Portmidi.Portmidi_error.t) result
 end
 
-type note_data = { note : char; volume : char }
+val message_on :
+  note:char -> timestamp:int32 -> volume:char -> channel:int -> unit -> Event.t
+
+val message_off :
+  note:char -> timestamp:int32 -> volume:char -> channel:int -> unit -> Event.t
+
+val bend_pitch : bend:int -> timestamp:int32 -> channel:int -> Event.t
+
+val control_change : cc:int -> value:int -> timestamp:int32 -> Event.t
+(** This helps to send MIDI Control Change messages
+
+    @raise Invalid_argument if [cc] is greater than 119 *)
 
 val write_output : Device.t -> Portmidi.Portmidi_event.t list -> unit
-val handle_error : ('a, Portmidi.Portmidi_error.t) result -> unit
+
+module Scale : sig
+  type t = Major | Minor | Pentatonic | Nice | Blue | Overtones
+  type note_data = { note : char; volume : char }
+
+  val get : base_note:int -> t -> int -> note_data
+end

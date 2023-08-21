@@ -4,6 +4,15 @@ open Lwt.Infix
 let listen_address = Unix.inet_addr_loopback
 let port = 9000
 
+let sock : Lwt_unix.file_descr ref = ref Lwt_unix.stdin
+
+let init () : unit =
+  let _ = create_socket () 
+  >>= fun fd ->
+    sock := fd;
+  >>= Lwt_main.run in
+  ()
+
 let handle_message msg =
   print_endline ("Received message in handle_message: " ^ msg);
   match msg with "quit" -> "quit" | _ -> "Ready for next message"
@@ -12,9 +21,10 @@ let rec handle_request server_socket =
   server_socket >>= fun server_socket ->
   (* Wait for promise server_socket to resolve, and then use its value *)
   print_endline "Ready to send request";
-  Logs_lwt.info (fun m -> m "Enter the value you want to send to the UDP Server: ") >>= fun () ->
+  Logs_lwt.info (fun m ->
+      m "Enter the value you want to send to the UDP Server: ")
+  >>= fun () ->
   Lwt_io.read_line Lwt_io.stdin >>= fun userMsg ->
-
   Lwt_unix.sendto server_socket (Bytes.of_string userMsg) 0
     (String.length userMsg) []
     (ADDR_INET (listen_address, port))
@@ -35,7 +45,7 @@ let rec handle_request server_socket =
       print_endline ("Reply from server: " ^ reply);
       handle_request (Lwt.return server_socket)
 
-let create_client sock =
+let create_client =
   print_endline "Creating client";
   handle_request sock
 
