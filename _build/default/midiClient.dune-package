@@ -1,0 +1,4 @@
+(lang dune 3.9)
+(name midiClient)
+(sections (lib .) (bin ../../bin) (doc ../../doc/midiClient))
+(files (lib (META dune-package opam)) (bin (midiClient)) (doc (LICENSE)))

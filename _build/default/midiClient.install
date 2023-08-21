@@ -1,0 +1,11 @@
+lib: [
+  "_build/install/default/lib/midiClient/META"
+  "_build/install/default/lib/midiClient/dune-package"
+  "_build/install/default/lib/midiClient/opam"
+]
+bin: [
+  "_build/install/default/bin/midiClient"
+]
+doc: [
+  "_build/install/default/doc/midiClient/LICENSE"
+]

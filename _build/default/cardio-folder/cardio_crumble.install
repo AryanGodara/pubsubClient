@@ -1,0 +1,13 @@
+lib: [
+  "_build/install/default/lib/cardio_crumble/META"
+  "_build/install/default/lib/cardio_crumble/dune-package"
+  "_build/install/default/lib/cardio_crumble/opam"
+]
+bin: [
+  "_build/install/default/bin/cardio_crumble"
+  "_build/install/default/bin/some_loop"
+]
+doc: [
+  "_build/install/default/doc/cardio_crumble/LICENSE.md"
+  "_build/install/default/doc/cardio_crumble/README.md"
+]
