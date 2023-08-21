@@ -12,9 +12,10 @@ let rec handle_request server_socket =
   server_socket >>= fun server_socket ->
   (* Wait for promise server_socket to resolve, and then use its value *)
   print_endline "Ready to send request";
-  Logs_lwt.info (fun m -> m "Enter the value you want to send to the UDP Server: ") >>= fun () ->
+  Logs_lwt.info (fun m ->
+      m "Enter the value you want to send to the UDP Server: ")
+  >>= fun () ->
   Lwt_io.read_line Lwt_io.stdin >>= fun userMsg ->
-
   Lwt_unix.sendto server_socket (Bytes.of_string userMsg) 0
     (String.length userMsg) []
     (ADDR_INET (listen_address, port))
