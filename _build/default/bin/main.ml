@@ -15,13 +15,13 @@ let () =
   let () = Logs.set_level (Some Logs.Info) in
 
   (* Server *)
-  let server_socket = Udp_server.create_socket () in
-  let client_socket = Udp_client.create_socket () in
+  (* let server_socket = Udp_server.create_socket () in *)
+  let client_socket = UdpClient.create_socket () in
 
   let thre =
     Lwt.pick
       [
-        Udp_server.create_server server_socket;
+        (* Udp_server.create_server server_socket; *)
         Udp_client.create_client client_socket;
       ]
   in
