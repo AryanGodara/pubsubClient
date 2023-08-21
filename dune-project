@@ -19,7 +19,15 @@
  (name midiClient)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml dune)
+(depends 
+  (ocaml
+    (>= 5.0.0))
+  dune
+  (portmidi
+    (>= 0.1))
+  (cmdliner
+    (>= 1.1.1))
+)
  (tags
   (topics "to describe" your project)))
 
