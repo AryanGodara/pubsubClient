@@ -108,10 +108,8 @@ let rec sequencer_main_func num_beats tones device bpm _ =
   Hashtbl.clear event_table;
   Mutex.unlock event_table_lock;
   (* Unix.sleepf (60. /. Float.of_int bpm); *)
-  if Atomic.get Watchdog.terminate then
-    ()
-  else
-    sequencer_main_func (num_beats + 1) tones device bpm ()
+  if Atomic.get Watchdog.terminate then ()
+  else sequencer_main_func (num_beats + 1) tones device bpm ()
 
 let tracing (bpm : int) device child_alive path_pid tones =
   let polling_domain = Domain.spawn (polling_main_func path_pid) in
