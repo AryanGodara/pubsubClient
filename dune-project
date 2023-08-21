@@ -5,11 +5,11 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github Aryan/midiClient))
 
-(authors "Author Name")
+(authors "Aryan Godara")
 
-(maintainers "Maintainer Name")
+(maintainers "Aryan Godara")
 
 (license LICENSE)
 
