@@ -1,6 +1,12 @@
 open Runtime_events
 open Cmdliner
 
+let midi_message_data note volume channel =
+  let status = 0b1001_0000 lor channel in
+  let data1 = int_of_char (note) in
+  let data2 = int_of_char (volume) in
+  (status, data1, data2)
+
 let starting_time = ref None
 
 let adjust_time ts =
@@ -18,10 +24,13 @@ let runtime_counter device tones _domain_id ts counter _value =
       starting_time := Some ts;
       Midi.(
         let { Scale.note; volume } = tones 0 in
-        write_output device
-          [ message_on ~note ~timestamp:0l ~volume ~channel:0 () ])
-      (* Unix.sleep 5;
-         Midi.(write_output [ message_off ~note:base_note () ]) *)
+        let _status, data1, data2 = midi_message_data note volume 0 in
+        let midi_message = Rtpmidi.MIDI_MESSAGE.create ~message_type:Rtpmidi.NOTE_ON ~channel:1 ~data1 ~data2 ~timestamp:0
+        in
+        let bytes = Rtpmidi.UDP_SERIALIZER.serialize midi_message
+        in
+        ( UdpClient.create_client (String.of_bytes bytes)) |> ignore);
+        ()
   | _ -> ()
 
 let runtime_begin device tones _domain_id ts event =
@@ -30,11 +39,13 @@ let runtime_begin device tones _domain_id ts event =
   | None -> ()
   | Some ts ->
       Midi.(
-        write_output device
-          [ message_off ~note ~timestamp:ts ~volume ~channel:0 () ]);
-      Printf.printf "%f: start of %s. ts: %ld\n%!" (Sys.time ())
-        (Runtime_events.runtime_phase_name event)
-        ts
+        let _status, data1, data2 = midi_message_data note volume 0 in
+        let midi_message = Rtpmidi.MIDI_MESSAGE.create ~message_type:Rtpmidi.NOTE_ON ~channel:1 ~data1 ~data2 ~timestamp:(Int32.to_int ts)
+        in
+        let bytes = Rtpmidi.UDP_SERIALIZER.serialize midi_message
+        in
+        ( UdpClient.create_client (String.of_bytes bytes)) |> ignore);
+        ()
 
 let runtime_end device tones _domain_id ts event =
   let { Midi.Scale.note; volume } = Play.event_to_note tones event in
@@ -42,11 +53,13 @@ let runtime_end device tones _domain_id ts event =
   | None -> ()
   | Some ts ->
       Midi.(
-        write_output device
-          [ message_off ~note ~timestamp:ts ~volume ~channel:0 () ]);
-      Printf.printf "%f: start of %s. ts: %ld\n%!" (Sys.time ())
-        (Runtime_events.runtime_phase_name event)
-        ts
+        let _status, data1, data2 = midi_message_data note volume 0 in
+        let midi_message = Rtpmidi.MIDI_MESSAGE.create ~message_type:Rtpmidi.NOTE_ON ~channel:1 ~data1 ~data2 ~timestamp:(Int32.to_int ts)
+        in
+        let bytes = Rtpmidi.UDP_SERIALIZER.serialize midi_message
+        in
+        ( UdpClient.create_client (String.of_bytes bytes)) |> ignore);
+        ()
 
 let tracing device child_alive path_pid tones =
   let c = create_cursor path_pid in

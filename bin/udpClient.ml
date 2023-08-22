@@ -10,16 +10,14 @@ let handle_message msg =
   print_endline ("Received message in handle_message: " ^ msg);
   match msg with "quit" -> "quit" | _ -> "Ready for next message"
 
-let rec handle_request server_socket =
+let rec handle_request server_socket midiMessage =
   server_socket >>= fun server_socket ->
   (* Wait for promise server_socket to resolve, and then use its value *)
-  print_endline "Ready to send request";
   Logs_lwt.info (fun m ->
-      m "Enter the value you want to send to the UDP Server: ")
+      m "Sending MIDI message to the UDP Server: ")
   >>= fun () ->
-  Lwt_io.read_line Lwt_io.stdin >>= fun userMsg ->
-  Lwt_unix.sendto server_socket (Bytes.of_string userMsg) 0
-    (String.length userMsg) []
+  Lwt_unix.sendto server_socket (Bytes.of_string midiMessage) 0
+    (String.length midiMessage) []
     (ADDR_INET (listen_address, port))
   >>= fun _ ->
   print_endline "Request sent";
@@ -29,18 +27,11 @@ let rec handle_request server_socket =
   print_endline "Received response from server";
   let message = Bytes.sub_string buffer 0 num_bytes in
   print_endline ("Received message in handle_request: " ^ message);
-  let reply = handle_message message in
-  match reply with
-  | "quit" ->
-      print_endline "Quitting Client...";
-      Lwt.return ()
-  | _ ->
-      print_endline ("Reply from server: " ^ reply);
-      handle_request (Lwt.return server_socket)
+  Lwt.return_unit
 
-let create_client =
+let create_client message =
   print_endline "Creating client";
-  handle_request !sock
+  handle_request !sock message
 
 let create_socket () : Lwt_unix.file_descr Lwt.t =
   print_endline "Creating socket";
